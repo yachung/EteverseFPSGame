@@ -13,10 +13,10 @@ namespace FPSGame
         // 트랜스폼 컴포넌트 참조 변수
         private Transform refTransform;
 
-        enum State
+        enum States
         {
             Idle = 0,
-            RunF
+            Run
         }
 
         private void Awake()
@@ -32,9 +32,13 @@ namespace FPSGame
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
+            // 방향에 대한 애니메이션 설정
+            refAnimator.SetFloat("Horizontal", horizontal > 0f ? 1f : horizontal < 0f ? -1f : 0f);
+            refAnimator.SetFloat("Vertical", vertical > 0f ? 1f : vertical < 0f ? -1f : 0f);
+
             // 애니메이션 설정
-            if (horizontal != 0f || vertical != 0f) refAnimator.SetInteger("State", (int)State.RunF);
-            else refAnimator.SetInteger("State", (int)State.Idle);
+            if (horizontal != 0f || vertical != 0f) refAnimator.SetInteger("State", (int)States.Run);
+            else refAnimator.SetInteger("State", (int)States.Idle);
 
             Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
