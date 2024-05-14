@@ -1,9 +1,19 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace FPSGame
 {
     public class PlayerControl : MonoBehaviour
     {
+        public enum States
+        {
+            Idle = 0,
+            Move
+        }
+
+        // 플레이어의 상태를 나타내는 변수
+        [SerializeField] private States currentState = States.Idle;
+
         // 이동속도
         [SerializeField] private float moveSpeed = 5f;
 
@@ -12,12 +22,6 @@ namespace FPSGame
 
         // 트랜스폼 컴포넌트 참조 변수
         private Transform refTransform;
-
-        enum States
-        {
-            Idle = 0,
-            Run
-        }
 
         private void Awake()
         {
@@ -37,8 +41,10 @@ namespace FPSGame
             refAnimator.SetFloat("Vertical", vertical > 0f ? 1f : vertical < 0f ? -1f : 0f);
 
             // 애니메이션 설정
-            if (horizontal != 0f || vertical != 0f) refAnimator.SetInteger("State", (int)States.Run);
-            else refAnimator.SetInteger("State", (int)States.Idle);
+            if (horizontal == 0f && vertical == 0f) currentState = States.Idle;
+            else currentState = States.Move;
+
+            refAnimator.SetInteger("State", (int)currentState);
 
             Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
