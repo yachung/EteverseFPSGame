@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace FPSGame
@@ -20,6 +21,8 @@ namespace FPSGame
 
         private void Update()
         {
+            Debug.Log(PlayerInputManager.IsFire);
+
             // 입력 확인 후 발사.
             if (PlayerInputManager.IsFire)
             {
