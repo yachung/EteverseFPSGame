@@ -7,21 +7,31 @@ namespace FPSGame
     {
         private void Awake()
         {
-            StartCoroutine(TestFunction());
+            // 코루틴 함수 호출.
+            //StartCoroutine( TestFunction() );
+            StartCoroutine("TestFunction");
         }
 
-        // 코루틴 함수 선언
+        // 코루틴 함수 선언.
         private IEnumerator TestFunction()
         {
-            yield return new WaitForSeconds(1f);
+            while (true)
+            {
+                Debug.Log("1");
+                yield return null;
+            }
 
-            Debug.Log("1");
+            //// 1초 대기.
+            //yield return new WaitForSeconds(1f);
 
-            yield return new WaitForSeconds(1f);
-            
-            Debug.Log("2");
-            yield return new WaitForSeconds(1f);
-            Debug.Log("3");
+            //Debug.Log("1");
+
+            //yield return new WaitForSeconds(1f);
+
+            //Debug.Log("2");
+
+            //yield return new WaitForSeconds(1f);
+            //Debug.Log("3");
         }
     }
 }

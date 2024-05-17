@@ -1,57 +1,68 @@
-ï»¿using UnityEngine;
+using UnityEngine;
 
 namespace FPSGame
 {
-    // í”Œë ˆì´ì–´ì˜ ìƒíƒœë¥¼ ì œì–´í•˜ëŠ” ê´€ë¦¬ì ìŠ¤í¬ë¦½íŠ¸.
+    // ÀÛ¼ºÀÚ: Àå¼¼À±(2024.05.14).
+    // ÇÃ·¹ÀÌ¾îÀÇ »óÅÂ(½ºÅ×ÀÌÆ®)¸¦ Á¦¾îÇÏ´Â °ü¸®ÀÚ ½ºÅ©¸³Æ®.
     public class PlayerStateManager : MonoBehaviour
     {
-        // í”Œë ˆì´ì–´ì˜ ìƒíƒœë¥¼ ë‚˜íƒ€ë‚´ëŠ” ì—´ê±°í˜• ì„ ì–¸
+        // ÇÃ·¹ÀÌ¾îÀÇ »óÅÂ¸¦ ³ªÅ¸³»´Â ¿­°ÅÇü ¼±¾ğ.
         public enum State
         {
             Idle,
             Move
         }
 
-        // ìƒíƒœ ë³€ìˆ˜
+        // »óÅÂ º¯¼ö.
         [SerializeField] private State currentState = State.Idle;
 
-        // ìŠ¤í…Œì´íŠ¸ ì»´í¬ë„ŒíŠ¸ ë°°ì—´ ë³€ìˆ˜
+        // ½ºÅ×ÀÌÆ® ÄÄÆ÷³ÍÆ® ¹è¿­ º¯¼ö.
         [SerializeField] private PlayerState[] states;
 
-        [SerializeField] private PlayerAnimationController controller;
+        // ¾Ö´Ï¸ŞÀÌ¼Ç ÄÁÆ®·Ñ·¯ º¯¼ö.
+        [SerializeField] private PlayerAnimationController animationController;
 
-        // ìƒíƒœ ì„¤ì •
+        // »óÅÂ ¼³Á¤ ÇÔ¼ö.
         public void SetState(State newState)
         {
+            // ¿¹¿Ü Ã³¸®.
+            // try-catch ( µÉ ¼ö ÀÖÀ¸¸é ¾²Áö ¸¶¼¼¿ä ).
+            if (currentState == newState)
+            {
+                return;
+            }   
 
-            // ì˜ˆì™¸ì²˜ë¦¬
-            if (currentState == newState) return;
-
-            // í˜„ì¬ ìƒíƒœ ìŠ¤í¬ë¦½íŠ¸ ë„ê¸°
+            // ÇöÀç »óÅÂ ½ºÅ©¸³Æ® ²ô±â.
             states[(int)currentState].enabled = false;
 
-            // ìƒˆë¡œìš´ ìƒíƒœ ìŠ¤í¬ë¦½íŠ¸ ì¼œê¸°
+            // »õ·Î¿î »óÅÂ ½ºÅ©¸³Æ® ÄÑ±â.
             states[(int)newState].enabled = true;
 
-            // ìƒíƒœ ë³€ìˆ˜ ì—…ë°ì´íŠ¸
+            // »óÅÂ º¯¼ö ¾÷µ¥ÀÌÆ®.
             currentState = newState;
 
-            // ì• ë‹ˆë©”ì´ì…˜ ì„¤ì •
-            controller.SetStateParameter((int)currentState);
+            // ¾Ö´Ï¸ŞÀÌ¼Ç ¼³Á¤.
+            animationController.SetStateParameter((int)currentState);
         }
 
         private void Update()
         {
-            // ì…ë ¥ì´ ì—†ëŠ”ì§€ í™•ì¸
-            if (PlayerInputManager.Horizontal == 0f && PlayerInputManager.Vertical == 0f) SetState(State.Idle);
+            // ÀÔ·ÂÀÌ ¾ø´Â Áö È®ÀÎ.
+            if (PlayerInputManager.Horizontal == 0f 
+                && PlayerInputManager.Vertical == 0f)
+            {
+                // ÀÔ·ÂÀÌ ¾øÀ¸¸é ±âº» »óÅÂ·Î ÀüÈ¯.
+                SetState(State.Idle);
+            }
             else
             {
-                // ì´ë™ ìƒíƒœë¡œ ì „í™˜
+                // ÀÌµ¿ »óÅÂ·Î ÀüÈ¯.
                 SetState(State.Move);
 
-                // ì• ë‹ˆë©”ì´ì…˜ ì„¤ì •
-                controller.SetHorizontalParameter(PlayerInputManager.Horizontal);
-                controller.SetVerticalParameter(PlayerInputManager.Vertical);
+                // ¾Ö´Ï¸ŞÀÌ¼Ç ¼³Á¤.
+                animationController.SetHorizontalParameter(PlayerInputManager.Horizontal);
+
+                animationController.SetVerticalParameter(PlayerInputManager.Vertical);
             }
         }
     }
