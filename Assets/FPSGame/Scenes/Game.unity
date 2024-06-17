@@ -259,6 +259,91 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1663631777}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &269642673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 269642674}
+  - component: {fileID: 269642675}
+  - component: {fileID: 269642676}
+  m_Layer: 0
+  m_Name: Enemy Damage Controller
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &269642674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269642673}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1434296067}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &269642675
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269642673}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &269642676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269642673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 866c755ae86d7164d9aeb5da95d02d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodEffect: {fileID: 1000012909287652, guid: abb9f519b142e304d9c45b56afa768bc, type: 3}
+  data: {fileID: 461587590}
+  OnEnemyDead:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1434296070}
+        m_TargetAssemblyTypeName: FPSGame.EnemyStateManager, Assembly-CSharp
+        m_MethodName: OnEnemyDead
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!137 &323052640 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -3652057383185238947, guid: 49dc8d7b1dd7e0e45b73a07533213412, type: 3}
@@ -1391,6 +1476,7 @@ GameObject:
   - component: {fileID: 1434296070}
   - component: {fileID: 1434296072}
   - component: {fileID: 1434296071}
+  - component: {fileID: 1434296073}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -1414,6 +1500,7 @@ Transform:
   - {fileID: 1700513250}
   - {fileID: 461587589}
   - {fileID: 1706339909}
+  - {fileID: 269642674}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &1434296069
@@ -1454,6 +1541,7 @@ MonoBehaviour:
   states:
   - {fileID: 1434296072}
   - {fileID: 1434296071}
+  - {fileID: 1434296073}
   data: {fileID: 461587590}
   OnEnemyStateChanged:
     m_PersistentCalls:
@@ -1496,6 +1584,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waitTime: 0
   elapsedTime: 0
+--- !u!114 &1434296073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434296066}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e8e090896b537d4aabaaaa72f7ca31f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyCollider: {fileID: 269642675}
+  destroyTarget: {fileID: 1434296066}
 --- !u!1 &1445730262 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 49dc8d7b1dd7e0e45b73a07533213412, type: 3}

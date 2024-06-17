@@ -13,6 +13,7 @@ namespace FPSGame
             None = -1,
             Idle,
             Patrol,
+            Dead,
         }
 
         // 적 캐릭터의 현재 상태 값을 나타냄
@@ -71,6 +72,24 @@ namespace FPSGame
             Agent.speed = data.PatrolSpeed;
             Agent.isStopped = false;
             Agent.updateRotation = true;
+        }
+
+        // 에이전트를 정지시키는 메시지
+        public void StopAgent()
+        {
+            Agent.isStopped = true;
+            Agent.velocity = Vector3.zero;
+            Agent.updateRotation = false;
+        }
+
+        // 죽었을 때 실행될 메시지
+        public void OnEnemyDead()
+        {
+            // 상태를 Dead로 변경
+            SetState(State.Dead);
+
+            // 내비 메시 에이전트 정지.
+            StopAgent();
         }
     }
 }
