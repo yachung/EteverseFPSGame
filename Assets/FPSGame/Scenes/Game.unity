@@ -1203,7 +1203,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6a9541409ae49064d9d0944805f8740d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1388,7 +1388,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1434296067}
   - component: {fileID: 1434296069}
-  - component: {fileID: 1434296068}
+  - component: {fileID: 1434296070}
+  - component: {fileID: 1434296072}
+  - component: {fileID: 1434296071}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -1411,22 +1413,9 @@ Transform:
   m_Children:
   - {fileID: 1700513250}
   - {fileID: 461587589}
+  - {fileID: 1706339909}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1434296068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1434296066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ada668ee1fb258d4bbfb0f9ad39f4923, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 1434296069}
-  destination: {fileID: 562915091}
 --- !u!195 &1434296069
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1440,7 +1429,7 @@ NavMeshAgent:
   m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -1449,6 +1438,64 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1434296070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434296066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c10a40522285944b1efa2f01810087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: -1
+  states:
+  - {fileID: 1434296072}
+  - {fileID: 1434296071}
+  data: {fileID: 461587590}
+  OnEnemyStateChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1706339908}
+        m_TargetAssemblyTypeName: FPSGame.EnemyAnimationController, Assembly-CSharp
+        m_MethodName: OnEnemyStateChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1434296071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434296066}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253a2ab55727cb44b9729a020e600963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1434296072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434296066}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8478d04748e2b341b2daabd429a0087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitTime: 0
+  elapsedTime: 0
 --- !u!1 &1445730262 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 49dc8d7b1dd7e0e45b73a07533213412, type: 3}
@@ -1532,7 +1579,7 @@ GameObject:
   - component: {fileID: 1663631777}
   m_Layer: 0
   m_Name: Waypoints
-  m_TagString: Untagged
+  m_TagString: WaypointGroup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1571,6 +1618,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5017441829114b64b8c9a73aadec9413, type: 3}
   m_PrefabInstance: {fileID: 962572896}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1700513251 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 5017441829114b64b8c9a73aadec9413, type: 3}
+  m_PrefabInstance: {fileID: 962572896}
+  m_PrefabAsset: {fileID: 0}
 --- !u!205 &1700513252
 LODGroup:
   m_ObjectHideFlags: 0
@@ -1598,6 +1650,51 @@ LODGroup:
     renderers:
     - renderer: {fileID: 1494727395}
   m_Enabled: 1
+--- !u!1 &1706339907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1706339909}
+  - component: {fileID: 1706339908}
+  m_Layer: 0
+  m_Name: Enemy Animation Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1706339908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706339907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9a831d32fec61f409bc0b9eed9a2489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  refAnimator: {fileID: 1700513251}
+--- !u!4 &1706339909
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706339907}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1434296067}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1724506721
 GameObject:
   m_ObjectHideFlags: 0
