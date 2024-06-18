@@ -36,7 +36,8 @@ namespace FPSGame
             Ray ray = mainCamera.ScreenPointToRay(aimTarget.transform.position);
 
             // 생성한 Ray를 발사(Raycast).
-            if (Physics.Raycast(ray, out RaycastHit hit, 10000f) && hit.collider.CompareTag("Enemy"))
+            //if (Physics.Raycast(ray, out RaycastHit hit, 10000f) && hit.collider.CompareTag("Enemy"))
+            if (Physics.Raycast(ray, out RaycastHit hit, 10000f))
             {
                 // 조준된 물체가 있을 때, 조준 색상으로 설정.
                 aimTarget.color = targetDetectedColor;

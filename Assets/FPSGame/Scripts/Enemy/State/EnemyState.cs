@@ -47,5 +47,17 @@ namespace FPSGame
         {
             
         }
+
+        protected void UpdateRotation(Vector3 target, float damping)
+        {
+            if (target != Vector3.zero)
+            {
+                // 회전 구하기
+                Quaternion rotation = Quaternion.LookRotation(target);
+
+                // Lerp를 활용해서 회전 적용
+                refTransform.rotation = Quaternion.Slerp(refTransform.rotation, rotation, damping * Time.deltaTime);
+            }
+        }
     }
 }

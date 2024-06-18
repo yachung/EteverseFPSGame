@@ -26,10 +26,13 @@ namespace FPSGame
         // 체력
         private float hp = 0f;
 
+        // 이펙트 재생 시간
+        private float effectDuration = 0f;
 
         private void OnEnable()
         {
             hp = data.MaxHP;
+            effectDuration = bloodEffect.GetComponent<ParticleSystem>().main.duration;
         }
 
         // 다른 물체와 Collision 방식으로 충돌을 시작할 때 유니티 엔진이 호출해주는 이벤트 함수
@@ -41,13 +44,13 @@ namespace FPSGame
             // 피격 효과 재생
             PlayBloodEffect(collision);
 
-            // 탄약 제거
-            Destroy(collision.gameObject);
-
             // 대미지 처리(체력감소)
             hp -= collision.gameObject.GetComponent<BulletDamage>().Damage;
 
             hp = hp < 0f ? 0f : hp;
+
+            // 탄약 제거
+            Destroy(collision.gameObject);
 
             // 죽음판단
             if (hp == 0f)
@@ -72,11 +75,9 @@ namespace FPSGame
             GameObject objEffect = Instantiate(bloodEffect, position, rotation);
 
             objEffect.transform.SetParent(transform);
-
-            float duration = objEffect.GetComponent<ParticleSystem>().main.duration;
-
+                
             // 재생 후 프리팹 제거
-            Destroy(objEffect, duration);
+            Destroy(objEffect, effectDuration);
         }
     }
 }

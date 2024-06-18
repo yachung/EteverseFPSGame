@@ -34,7 +34,7 @@ namespace FPSGame
             // 대기 시간보다 더 지났으면
             if (elapsedTime > waitTime)
             {
-                // Todo: 상태 전환 -> 상태 관리자를 통해서 전환
+                // 상태 전환 -> 상태 관리자를 통해서 전환
                 manager.SetState(EnemyStateManager.State.Patrol);
             }
         }

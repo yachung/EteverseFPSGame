@@ -13,6 +13,8 @@ namespace FPSGame
             None = -1,
             Idle,
             Patrol,
+            Trace,
+            Attack,
             Dead,
         }
 
@@ -22,23 +24,37 @@ namespace FPSGame
         [SerializeField] private EnemyState[] states;
         [SerializeField] private EnemyData data;
         // 적 캐릭터의 상태가 변경되는 발행되는 이벤트
+        // 옵저버 패턴
+        // 단점 : 디버깅이 어려움
+        // 장점 : 디커플링
         [SerializeField] private UnityEvent<State> OnEnemyStateChanged;
+        [SerializeField] private Transform trWaypointGroup;
 
         // 내비 메시 에이전트 프로퍼티
         public NavMeshAgent Agent { get; private set; }
 
+        // 플레이어 정보
+        public Transform PlayerTransform { get; private set; }
+
+        // 플레이어의 생존 여부
+        public bool IsPlayerDead { get; private set; }
+
         private void Awake()
         {
             Agent = GetComponent<NavMeshAgent>();
-            Agent.updateRotation = false;
-            Agent.isStopped = true;
+            StopAgent();
 
             // 데이터 초기화
             // waypoint 게임 오브젝트 검색
-            data.Initialize(GameObject.FindGameObjectWithTag("WaypointGroup").transform);
+            trWaypointGroup = GameObject.FindGameObjectWithTag("WaypointGroup").transform;
+            data.Initialize(trWaypointGroup);
 
             foreach (var state in states)
                 state.SetData(data);
+
+            // 플레이어 정보 초기화
+            // 싱글톤을 사용할수 있으나 커플링 생김
+            PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
             SetState(State.Idle);
         }
@@ -69,7 +85,7 @@ namespace FPSGame
         {
             // 내비 메시 에이전트에 정찰 위치를 이동 목표지점으로 설정
             Agent.SetDestination(destination);
-            Agent.speed = data.PatrolSpeed;
+            Agent.speed = moveSpeed;
             Agent.isStopped = false;
             Agent.updateRotation = true;
         }
@@ -89,6 +105,20 @@ namespace FPSGame
             SetState(State.Dead);
 
             // 내비 메시 에이전트 정지.
+            StopAgent();
+        }
+
+        // 적 캐릭터의 죽음 여부
+        public bool IsDead
+        {
+            get { return state == State.Dead; }
+        }
+
+        // 플레이어가 죽었을 때 실행될 이벤트 리스너 메소드
+        public void OnPlayerDead()
+        {
+            IsPlayerDead = true;
+            SetState(State.Idle);
             StopAgent();
         }
     }
