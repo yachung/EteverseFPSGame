@@ -56,7 +56,8 @@ namespace FPSGame
             if (hp == 0f)
             {
                 OnEnemyDead?.Invoke();
-                Destroy(gameObject);
+                // 점수 획득
+                GameManager.Instance.AddScore();
             }
         }
 
