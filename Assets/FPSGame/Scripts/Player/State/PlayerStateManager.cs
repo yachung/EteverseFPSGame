@@ -9,9 +9,10 @@ namespace FPSGame
         // 플레이어의 상태를 나타내는 열거형 선언.
         public enum State
         {
+            None = -1,
             Idle,
             Move,
-            None,
+            Dead,
         }
 
         // 상태 변수.
@@ -26,6 +27,9 @@ namespace FPSGame
         // 플레이어 데이터
         [SerializeField] private PlayerData data;
 
+        // 플레이어가 죽었는지를 알려주는 프로퍼티
+        public bool IsPlayerDead { get { return currentState == State.Dead; } }
+
         private void OnEnable()
         {
             // 처음 시작할 스테이트 설정
@@ -33,9 +37,7 @@ namespace FPSGame
 
             // 각 스테이트에 데이터 전파
             foreach (PlayerState state in states)
-            {
                 state.SetData(data);
-            }
         }
 
         // 상태 설정 함수.
@@ -43,17 +45,14 @@ namespace FPSGame
         {
             // 예외 처리.
             // try-catch ( 될 수 있으면 쓰지 마세요 ).
-            if (currentState == newState)
-            {
+            if (currentState == newState || IsPlayerDead)
                 return;
-            }
 
             if (currentState != State.None)
             {
                 // 현재 상태 스크립트 끄기.
                 states[(int)currentState].enabled = false;
             }
-
 
             // 새로운 상태 스크립트 켜기.
             states[(int)newState].enabled = true;
@@ -84,6 +83,12 @@ namespace FPSGame
 
                 animationController.SetVerticalParameter(PlayerInputManager.Vertical);
             }
+        }
+
+        // 플레이어가 죽으면 실행되는 메소드(메시지)
+        public void OnPlayerDead()
+        {
+            SetState(State.Dead);
         }
     }
 }

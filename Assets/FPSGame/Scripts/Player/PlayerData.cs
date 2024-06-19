@@ -8,6 +8,7 @@ namespace FPSGame
     {
         // 데이터로 파일로 저장할 플레이어 데이터
         public float moveSpeed = 3f;            // 이동 속도.
+        public float runSpeed = 6f;             // 달리기 속도
         public float rotationSpeed = 540f;      // 회전 속도.
         public float maxHP = 100f;              // 체력(Health Power).
         public int maxAmmo = 20;                // 탄창에 채울 

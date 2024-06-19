@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace FPSGame
@@ -11,20 +12,16 @@ namespace FPSGame
         [SerializeField] private float currentHp = 0f;
         // 플레이어 데이터 컴포넌트 참조변수
         [SerializeField] private PlayerData data;
+        // 플레이어가 죽을 때 발행되는 이벤트
+        [SerializeField] private UnityEvent OnPlayerDead;
 
-        // 피격 효과를 위한 UI 참조변수
-        [SerializeField] private Image bloodEffect;
-        private WaitForSeconds effectWait;
-        private Coroutine coShowBloodEffect;
+        // 플레이어가 대미지를 입었을 때 발생하는 이벤트
+        // 두 개의 파라미터를 전달 - 현재 체력 값, 최대 체력 값
+        [SerializeField] private UnityEvent<float, float> OnPlayerDamaged;
 
         private void OnEnable()
         {
             currentHp = data.maxHP;
-
-            if (effectWait == null )
-                effectWait = new WaitForSeconds(0.2f);
-
-            coShowBloodEffect = null;
         }
 
         // 트리거 타입의 충돌이 발생 할 때 엔진이 실행해주는 이벤트 메소드
@@ -37,28 +34,22 @@ namespace FPSGame
                 currentHp -= other.GetComponent<BulletDamage>().Damage;
                 currentHp = currentHp < 0f ? 0f : currentHp;
 
+                // 대미지 변동 이벤트 발행
+                OnPlayerDamaged?.Invoke(currentHp, data.maxHP);
+
                 // 탄약 제거
                 Destroy(other.gameObject);
 
                 // 죽음 알리기
                 if (currentHp == 0f)
-                {
-                    // Todo: 이벤트 발행
-                }
-
-                // 피격 효과 재생 (UI로 피격 효과).
-                StartCoroutine(ShowBloodEffect());
+                    OnPlayerDead?.Invoke();
             }
         }
-
-        // 피격효과 재생 코루틴
-        private IEnumerator ShowBloodEffect()
+        
+        // 외부에서 이벤트를 등록할 때 사용할 메소드
+        public void SubscribeOnPlayerDead(UnityAction action)
         {
-            bloodEffect.color = new Color(Random.Range(0.7f, 0.9f), 0f, 0f, Random.Range(0.2f, 0.4f));
-
-            yield return effectWait;
-
-            bloodEffect.color = Color.clear;
+            OnPlayerDead.AddListener(action);
         }
     }
 }

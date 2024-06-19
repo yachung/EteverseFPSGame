@@ -56,6 +56,9 @@ namespace FPSGame
             // 싱글톤을 사용할수 있으나 커플링 생김
             PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
+            // 플레이어가 죽었을 때 발행되는 이벤트에 함수 등록
+            FindFirstObjectByType<PlayerDamageController>().SubscribeOnPlayerDead(OnPlayerDead);
+
             SetState(State.Idle);
         }
 
