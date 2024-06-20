@@ -51,7 +51,8 @@ namespace FPSGame
             // 좌우 캐릭터 회전 처리.
             Vector3 rotation = new Vector3(
                 0f, 
-                PlayerInputManager.Turn * data.rotationSpeed * Time.deltaTime,
+                //PlayerInputManager.Turn * data.rotationSpeed * Time.deltaTime,
+                PlayerInputManager.Turn,
                 0f
             );
 

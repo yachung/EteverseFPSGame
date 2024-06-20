@@ -8,12 +8,29 @@ namespace FPSGame
         // 필드
         [SerializeField] private int score = 0;
         [SerializeField] private TextMeshProUGUI scoreText;
+        [SerializeField] private TextMeshProUGUI fpsText;
 
         private int addScoreValue = 1;
 
         private void Awake()
         {
             scoreText.text = $"KILL <color=red>{score:N0}</color>";
+        }
+
+        private void Update()
+        {
+            // 디버깅용 스탯 출력
+            if (fpsText)
+                fpsText.text = $"FPS: {(int)(1.0f / Time.deltaTime)}";
+
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+            }
         }
 
         // 점수 획득 메시지

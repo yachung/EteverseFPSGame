@@ -17,6 +17,9 @@ namespace FPSGame
         // 적 캐릭터 데이터 컴포넌트
         [SerializeField] private EnemyData data;
 
+        // 적 캐릭터가 대미지를 받을 때 발행하는 이벤트
+        [SerializeField] private UnityEvent<float, float> OnEnemyDamaged;
+
         // 적 캐릭터가 죽을 때 발행하는 이벤트
         [SerializeField] private UnityEvent OnEnemyDead;
 
@@ -32,7 +35,10 @@ namespace FPSGame
         private void OnEnable()
         {
             hp = data.MaxHP;
+         
             effectDuration = bloodEffect.GetComponent<ParticleSystem>().main.duration;
+
+            OnEnemyDamaged?.Invoke(hp, data.MaxHP);
         }
 
         // 다른 물체와 Collision 방식으로 충돌을 시작할 때 유니티 엔진이 호출해주는 이벤트 함수
@@ -48,6 +54,8 @@ namespace FPSGame
             hp -= collision.gameObject.GetComponent<BulletDamage>().Damage;
 
             hp = hp < 0f ? 0f : hp;
+
+            OnEnemyDamaged?.Invoke(hp, data.MaxHP);
 
             // 탄약 제거
             Destroy(collision.gameObject);

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  runSpeed: 5
+  runSpeed: 10
   rotationSpeed: 540
   maxHP: 300
   maxAmmo: 20
